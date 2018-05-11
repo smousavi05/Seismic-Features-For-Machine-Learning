@@ -18,7 +18,7 @@ Some of the features used in this study are introduced for seismic study for fir
 ## Data
 5688 single channel record from 440 microearthquakes induced by an underground cavern collapse in the Napoleonville Salt Dome in Bayou Corne, Louisiana. 
 
-![Location of Napoleonville Salt Dome (NSD) in Louisiana, USA. Contours show the top of the salt dome in feet below sea level](Fig2.png
+![Location of Napoleonville salt Dome in Louisiana, USA.Countours show the top of the salt dome in feet below sea level](Fig2.png)
 
 ## Results
 The cross validation test showed that events with depth shallower than 250 m can be discriminated from events with hypocentral depth between 1000 to 2000 m with 88% and 90.7% accuracy using logistic regression (LR) and neural network (NN) models, respectively. Similar results were obtained using single station seismograms. The results show that the spectral features have the highest correlation to source depth. Spectral centroids and 2D cross-correlations in the time-frequency domain are two new seismic features used in this study that showed to be promising measures for seismic event classification. The used machine learning techniques have application for efficient automatic classification of low energy signals recorded at one or more seismic stations.
