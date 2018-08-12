@@ -1,7 +1,8 @@
 # Feature_Extraction-
 =====================
 
-This repository contains routins for extracting features from seismograms for machine learning presented in:
+## Repository's Description
+This repository contains a collection of codes used for extracting features from continuous seismic signals presented in: 
 
 Mousavi, S. M., S. P. Horton, C. A. Langston, B. Samei (2016). Seismic Features and Automatic
 Discrimination of Deep and Shallow Induced-Microearthquakes Using Neural Network and Logistic Regression,
@@ -27,5 +28,4 @@ The cross validation test showed that events with depth shallower than 250 m can
 
 ![Seismograms for six events presented both in the time and time–frequency domains. Left and right columns show deep and shallow events, respectively. Signals associated with deep events exhibit a limited frequency content mostly concentrated around scale 4 and spread out at the higher frequencies. Shallow events have a relatively broader spectrum with the concentration of the energy in lower frequencies](Fig3.png)
 
-## Repository's Description
-This repository contains a collection of codes used for extracting features from continuous seismic signals. 
+
