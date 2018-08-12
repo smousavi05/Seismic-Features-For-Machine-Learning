@@ -1,7 +1,6 @@
 # Feature_Extraction-
 =====================
 
-## Repository's Description
 This repository contains a collection of codes used for extracting features from continuous seismic signals presented in: 
 
 Mousavi, S. M., S. P. Horton, C. A. Langston, B. Samei (2016). Seismic Features and Automatic
