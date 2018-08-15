@@ -1,7 +1,7 @@
 # Seismic_Features_For_Machine_Learning
 =====================
 
-This repository contains a collection of codes used for extracting features from continuous seismic signals presented in: 
+This repository contains a collection of codes used for extracting features from seismic signals presented in: 
 
 Mousavi, S. M., S. P. Horton, C. A. Langston, B. Samei (2016). Seismic Features and Automatic
 Discrimination of Deep and Shallow Induced-Microearthquakes Using Neural Network and Logistic Regression,
