@@ -1,4 +1,4 @@
-# Feature_Extraction
+# Seismic_Features_For_Machine_Learning
 =====================
 
 This repository contains a collection of codes used for extracting features from continuous seismic signals presented in: 
