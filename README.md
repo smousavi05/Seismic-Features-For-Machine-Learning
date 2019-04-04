@@ -1,4 +1,4 @@
-#                             Seismic Features For Machine Learning
+#                                     Seismic Features For Machine Learning
 ------------------------------------------------------
 
 This repository contains a collection of codes used for extracting features from seismic signals presented in: 
