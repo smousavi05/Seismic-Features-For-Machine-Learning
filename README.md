@@ -1,15 +1,14 @@
 #        Seismic Features For Machine Learning
-------------------------------------------- 
 
 This repository contains a collection of codes used for extracting features from seismic signals presented in: 
 
-Mousavi, S. M., S. P. Horton, C. A. Langston, B. Samei (2016). Seismic Features and Automatic
-Discrimination of Deep and Shallow Induced-Microearthquakes Using Neural Network and Logistic Regression,
-Geophysical Journal International, 207(1), 29-46, doi:10.1093/gji/ggw258.
+      Mousavi, S. M., S. P. Horton, C. A. Langston, B. Samei (2016). Seismic Features and Automatic
+      Discrimination of Deep and Shallow Induced-Microearthquakes Using Neural Network and Logistic Regression, Geophysical Journal International, 207(1), 29-46, doi:10.1093/gji/ggw258.
 
 (https://academic.oup.com/gji/article/207/1/29/2583533)
 
 (https://www.researchgate.net/publication/305314786_Seismic_features_and_automatic_discrimination_of_deep_and_shallow_induced-microearthquakes_using_neural_network_and_logistic_regression)
+------------------------------------------- 
 
 ## Short Description
 In this paper we applied supervised machine learning techniques (neural net and logistic regression) to discriminate two groups pf very small earthquakes (-1.7< Magnitudes < 1.29) occuring close to each others (~ 800 m) based on their source depths. This is done using many features measured in time, frequency, and time-frequency domain from seismic signal recorded on a limited number of surface receivers. 
