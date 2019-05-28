@@ -7,7 +7,8 @@ This repository contains a collection of codes used for extracting features from
       Geophysical Journal International, 207(1), 29-46, doi:10.1093/gji/ggw258`
       
       
-      
+   BibTeX:
+   
         @article{mousavi2016seismic,
             title={Seismic features and automatic discrimination of deep and shallow induced-microearthquakes using neural    network and logistic regression},
             author={Mousavi, S Mostafa and Horton, Stephen P and Langston, Charles A and Samei, Borhan},
