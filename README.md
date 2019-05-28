@@ -21,6 +21,8 @@ This repository contains a collection of codes used for extracting features from
             }
 
 
+Paper: 
+
 (https://academic.oup.com/gji/article/207/1/29/2583533)
 
 (https://www.researchgate.net/publication/305314786_Seismic_features_and_automatic_discrimination_of_deep_and_shallow_induced-microearthquakes_using_neural_network_and_logistic_regression)
