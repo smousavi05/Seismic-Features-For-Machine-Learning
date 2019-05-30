@@ -6,7 +6,8 @@ This repository contains a collection of codes used for extracting features from
       Discrimination of Deep and Shallow Induced-Microearthquakes Using Neural Network and Logistic Regression, 
       Geophysical Journal International, 207(1), 29-46, doi:10.1093/gji/ggw258`
       
-      
+ ------------------------------------------- 
+     
    BibTeX:
    
         @article{mousavi2016seismic,
