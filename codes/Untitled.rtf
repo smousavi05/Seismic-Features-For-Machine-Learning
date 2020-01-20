@@ -1,0 +1,260 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1344\cocoasubrtf720
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 #!/bin/sh\
+\
+\
+#####  This script was written by Mostafa Mousavi to make list from stations wich recorded one\
+##     events and their lat and long  ### this script first make a list of\
+##     availabe stations from the sac files in a folder and then continiu by \
+##     maching the station names by the reference list of all the stations informations \
+\
+#############\
+#############  part 1 renaming the files \
+\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+cp 1rename.sh $ev\
+cd $ev\
+./1rename.sh\
+rm 1rename.sh\
+cd ..\
+\
+done\
+\
+############ \
+############  part 2 makingthe list of stations \
+ \
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+echo "$ev" > tempo\
+cp tempo $ev\
+cp evlist.dat $ev\
+cp stationlist.dat $ev\
+cp 2stlimkr.sh $ev\
+cd $ev\
+./2stlimkr.sh\
+cd ..\
+\
+done\
+\
+##############\
+##############  adding the event information to the sac headers \
+\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+\
+grep "$ev" evlist.dat > temp\
+mv temp $ev \
+cd $ev\
+echo "rh *.SAC" > addev.$ev.macro\
+cat temp | awk -F" " '\{printf( "%s "," ch EVLA "$2" EVLO "$3" EVDP "$4" MAG "$5);\}' >> addev.$ev.macro\
+\
+echo " " | awk '\{printf(" \\n");\}'  >> addev.$ev.macro\
+cat temp | awk -F" " '\{printf( "%s "," ch O GMT "$6" "$7" "$8" "$9" "$10" "000);\}' >> addev.$ev.macro\
+echo " " | awk '\{printf(" \\n");\}'  >> addev.$ev.macro\
+echo "wh" >> addev.$ev.macro\
+echo " " | awk '\{printf(" \\n");\}'  >> addev.$ev.macro\
+echo "q" >> addev.$ev.macro\
+sac addev.$ev.macro\
+\
+echo ">" > path.gmt\
+echo "" > station.gmt\
+rm addev.$ev.macro\
+cd ..\
+\
+done\
+\
+\
+############\
+############  adding the station information to the sac headers\
+\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+cd $ev\
+\
+#evnam=(`pwd | awk 'BEGIN\{FS="/"\}\{printf( "%s ", $9); \}'`)\
+for st in ` awk '\{ print $1\}' $ev.stlatlon`; do\
+grep "$st" $ev.stlatlon > temp2\
+echo "rh $st.*.SAC" > addst.macro\
+echo " " | awk '\{printf(" \\n");\}'  >> addst.macro\
+cat temp2 | awk -F" " '\{printf( "%s\\n "," ch STLA "$2" STLO "$3);\}' >> addst.macro\
+\
+cat temp | awk -F" " '\{printf( "%s ",$3" "$2);\}' >> path.gmt\
+echo " " | awk '\{printf(" \\n");\}' >> path.gmt\
+cat temp2 | awk -F" " '\{printf( "%s ",$3" "$2);\}' >> path.gmt\
+echo " " | awk '\{printf(" \\n");\}' >> path.gmt\
+echo ">" >> path.gmt\
+\
+cat temp2 | awk -F" " '\{printf( "%s ",$3" "$2);\}' >>  station.gmt\
+echo " " | awk '\{printf(" \\n");\}' >> station.gmt\
+\
+\
+echo " " | awk '\{printf(" \\n");\}'  >> addst.macro\
+echo "wh" >> addst.macro\
+echo " " | awk '\{printf(" \\n");\}'  >> addst.macro\
+echo "q" >> addst.macro\
+sac addst.macro\
+rm temp2\
+done\
+rm addst.macro\
+cd ..\
+done\
+\
+#########################\
+#########################  making  GMT plot \
+\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+\
+cp topo_8.2.img $ev\
+\
+cd $ev \
+\
+REGION=-94/-84/34/40\
+size=20c\
+fromXaxis=4\
+fromYaxis=3\
+title=$\{ev\}\
+\
+##########   set defaults\
+WHITE=255\
+LTGRAY=192\
+VLTGRAY=225\
+EXTGRAY=250\
+GRAY=128\
+BLACK=0\
+RED=250/0/0\
+DKRED=196/50/50\
+BLUE=0/0/255\
+GREEN=0/255/0\
+YELLOW=255/255/50\
+ORANGE=255/192/50\
+PURPLE=255/50/255\
+CYAN=50/255/255\
+LTBLUE=192/192/250\
+VLTBLUE=225/250/250\
+LTRED=250/225/225\
+PINK=255/225/255\
+BROWN=160/64/32\
+\
+gmtset MEASURE_UNIT cm\
+\
+########  basemap\
+psbasemap -R$\{REGION\} -JM$\{size\} -Ba2f2g1/a2f2g1:.$\{title\}: -X$\{fromXaxis\} -Y$\{fromYaxis\} -K > $0.ps\
+\
+########  converting the img file to the grd file\
+img2grd topo_8.2.img -R$REGION -Gtopo2.grd -T1 \
+\
+########  making the CPT\
+makecpt -Cglobe -T-12000/12000/500 -Z > topo.cpt\
+\
+########   grdgradient grd to gradient\
+grdgradient topo2.grd -Gtopo.grad -A5 -Nt0.9\
+\
+##########  ploting the grd file on map\
+grdimage topo2.grd -Ctopo.cpt -Itopo.grad -JM$\{size\} -R$\{REGION\} -B1000g10000nSeW -Sb -K -O >> $0.ps\
+\
+##########   cost line data\
+pscoast -R$\{REGION\} -JM$\{size\}  -W1 -Df+ -A10000 -K -O -Na/3/0 >> $0.ps\
+\
+##### DRAW LINES \
+psxy path.gmt -R$\{REGION\} -JM$\{size\} -M -K -O -W1  >> $0.ps\
+\
+###### plot stations\
+cat station.gmt | awk -F" " '\{print("\\n", $1" "$2);\}' > lo.xy\
+psxy lo.xy -R$\{REGION\} -JM$\{size\} -St.2 -M -W1/0 -Gred -K -O >> $0.ps\
+\
+###### plot Earthquake \
+awk '\{print $3,$2\}' temp | head -1000 > locations.xy\
+psxy locations.xy -R$\{REGION\} -JM$\{size\} -Sc0.2c -W1/0 -G$YELLOW -M -K -O >> $0.ps\
+\
+\
+########## Scale Bar\
+pscoast -R$\{REGION\} -JM$\{size\} -W1 -K -O -Lf-93/32.5/32.7/100 -V >> $0.ps \
+\
+\
+#########    plotting legend\
+pstext -R -J -O -K << END >> $0.ps\
+-93.5 33.4 12 0 0 0 Stations\
+-93.5 33.2 12 0 0 0 Earthquake	\
+END\
+\
+echo -93.7 33.45 | psxy -R -J -St.2 -W1/0 -G$RED -O -K >> $0.ps\
+echo -93.7 33.25 | psxy -R -J -Sc0.2c -W1/0 -G$YELLOW -O  >> $0.ps\
+\
+gv $0.ps &\
+\
+rm topo_8.2.img \
+rm topo2.grd \
+rm topo.grad\
+rm topo.cpt\
+rm station.gmt\
+rm lo.xy\
+rm locations.xy\
+rm temp\
+rm temp2\
+rm gmt.list\
+rm evlist.dat\
+rm path.gmt\
+\
+cd ..\
+done\
+\
+#########################\
+#########################  making  a list of distance and Azimuth\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+cd $ev\
+\
+echo " " > azdistlist.txt \
+for i in $(ls *.??Z*.SAC); do\
+#for i in ` awk '\{ print $1\}' stnam.txt`; do\
+echo "r $i" > rddisaz.macro\
+echo "lh KSTNM AZ BAZ GCARC " >> rddisaz.macro\
+echo "q" >> rddisaz.macro\
+\
+sac rddisaz.macro | grep "KSTNM" | awk '\{printf( "%s", $3" "); \}' >> azdistlist.txt \
+sac rddisaz.macro | grep "GCARC" | awk '\{printf( "%s", $3" "); \}' >> azdistlist.txt\
+sac rddisaz.macro | grep "AZ" | awk '\{printf( "%s", $3" "); \}' >> azdistlist.txt\
+sac rddisaz.macro | grep "BAZ" | awk '\{printf( "%s", $3" "); \}' >> azdistlist.txt\
+echo " " | awk '\{printf(" \\n");\}' >> azdistlist.txt\
+done\
+\
+cat azdistlist.txt | sort -u | uniq -u > azdistlist.dat\
+\
+rm rddisaz.macro\
+rm azdistlist.txt\
+cd ..\
+done\
+\
+\
+####################\
+####################     plot travel time \
+\
+echo "which azimuth ?"\
+read az \
+echo "which velocity ?"\
+read vel\
+\
+for ev in ` awk '\{ print $1\}' evlist.dat`; do\
+cd $ev\
+\
+cat az$az | awk '\{printf ("%s ", " r more "$1".??Z.*");\}' > prs.macro\
+echo " " >> prs.macro\
+\
+echo "sss" >> prs.macro\
+\
+echo "vm 1 refractedwave vapp $vel" >> prs.macro\
+echo "timewindow 30 600" >> prs.macro\
+echo "title on "reduced velocity of $vel azimuth $az"" >> prs.macro  \
+echo "bd sgf" >> prs.macro \
+echo "prs O r" >> prs.macro\
+echo "ed sgf" >> prs.macro \
+echo "sgftops f001.sgf f001.ps" >> prs.macro\
+echo " q" >> prs.macro\
+sac prs.macro\
+mv f001.ps $az.$vel.$ev.ps\
+gv $az.$vel.$ev.ps\
+\
+done\
+\
+##########################\
+}
