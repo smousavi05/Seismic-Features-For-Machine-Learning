@@ -1,4 +1,4 @@
-# Seismic Features For Machine Learning                                                            
+# Seismic Features For Machine Learning                                                              
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/smousavi05/Seismic-Features-For-Machine-Learning?style=plastic)
 ![GitHub stars](https://img.shields.io/github/stars/smousavi05/Seismic-Features-For-Machine-Learning?style=social)
